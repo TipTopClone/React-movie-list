@@ -1,12 +1,22 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CustomCard } from './CustomCard';
 import { fetchMovie } from '../Utility/axiosHelper';
+import { randomCharGenerator } from '../Utility/randomStr';
 
 export const SearchForm = ({ addToMovieList }) => {
   const [movie, setMovie] = useState({});
   const strRef = useRef('');
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    const randChar = randomCharGenerator();
+
+    //IEFE
+    (async () => {
+      const randMovie = await fetchMovie(randChar);
+      setMovie(randMovie);
+    })();
+  }, []);
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     setMovie({});
@@ -26,6 +36,10 @@ export const SearchForm = ({ addToMovieList }) => {
     addToMovieList({ ...movie, mode });
     setMovie({});
     strRef.current.value = '';
+  };
+
+  const handleOnDelete = () => {
+    setMovie({});
   };
   return (
     <div className='bg-black p-5 rounded shadow-lg'>
@@ -53,7 +67,9 @@ export const SearchForm = ({ addToMovieList }) => {
         <div className='col-md d-flex justify-content-center'>
           {error && <div className='alert alert-danger'>{error}</div>}
 
-          {movie?.imdbID && <CustomCard movie={movie} func={func} />}
+          {movie?.imdbID && (
+            <CustomCard movie={movie} func={func} deleteFun={handleOnDelete} />
+          )}
         </div>
       </div>
     </div>

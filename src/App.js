@@ -7,8 +7,26 @@ function App() {
   const [movieList, setMovieList] = useState([]);
 
   const addToMovieList = (movie) => {
-    setMovieList([...movieList, movie]);
+    //replace
+    // => first remove then add
+
+    const filterdArg = movieList.filter((itm) => itm.imdbID !== movie.imdbID);
+    setMovieList([...filterdArg, movie]);
+    // setMovieList([...movieList, movie]);
   };
+
+  const handleOnDelete = (id) => {
+    const mov = movieList.filter(({ imdbID }) => imdbID !== id);
+    setMovieList(mov);
+    // setDMovie(mov);
+  };
+
+  // const moveFilter = (mode) => {
+  //   if (!mode) {
+  //     return setDMovie(movieList);
+  //   }
+  //   setDMovie(movieList.filter((itm) => itm.mode === mode));
+  // };
 
   console.log(movieList);
   return (
@@ -30,7 +48,7 @@ function App() {
         {/* movie list section  */}
         {/* => buttons  */}
         {/* => cards */}
-        <Display movieList={movieList} />
+        <Display movieList={movieList} handleOnDelete={handleOnDelete} />
       </div>
     </div>
   );

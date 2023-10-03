@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CustomCard = ({ movie, func }) => {
+export const CustomCard = ({ movie, func, deleteFun }) => {
   return (
     <div className='card ' style={{ width: '18rem' }}>
       <img src={movie?.Poster} className='card-img-top' alt='...' />
@@ -20,7 +20,9 @@ export const CustomCard = ({ movie, func }) => {
         )}
 
         <div className='d-grid mt-2'>
-          <button className='btn btn-danger'>Delete</button>
+          <button className='btn btn-danger' onClick={deleteFun}>
+            Delete
+          </button>
         </div>
       </div>
     </div>
